@@ -1,0 +1,301 @@
+knitr::opts_chunk$set(
+echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center"
+)
+# Manipulación y utilidades
+library(tidyverse)
+install.packages(c("tidyverse", "janitor", "skimr", "glue", "readr", "recipes", "cluster", "factorextra"))
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(glue)
+library(readr)
+library(recipes)
+library(cluster)
+library(factoextra)
+install.packages(c("tidyverse", "janitor", "skimr", "glue", "readr", "recipes", "cluster", "factoextra"))
+install.packages(c("tidyverse", "janitor", "skimr", "glue", "readr", "recipes", "cluster", "factoextra"))
+knitr::opts_chunk$set(
+echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center"
+)
+set.seed(123)
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(glue)
+library(readr)
+library(recipes)
+library(cluster)
+library(factoextra)
+knitr::opts_chunk$set(
+echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center"
+)
+set.seed(123)
+ruta_base="habits.csv"
+ruta_base<-"habits.csv"
+Datos=read.csv(ruta_base)
+Datos<-read.csv(ruta_base)
+# Conteo de NA por columna
+na_profile <- Datos %>%
+summarise(across(everything(), ~sum(is.na(.)))) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "na_count") %>%
+arrange(desc(na_count))
+na_profile %>% filter(na_count > 0)
+# Conteo de NA por columna
+na_profile <- Datos %>%
+summarise(across(everything(), ~sum(is.na(.)))) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "na_count") %>%
+arrange(desc(na_count))
+na_profile %>% filter(na_count > 0)
+type_profile <- Datos %>%
+summarise(across(everything(), ~class(.x)[1])) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "class")
+type_profile
+# Selección de variables numéricas para clustering
+Datos_num <- Datos %>%
+select(age, study_hours_per_day, social_media_hours, netflix_hours,
+attendance_percentage, sleep_hours, exercise_frequency,
+mental_health_rating, exam_score)
+# Normalización (media = 0, desviación estándar = 1)
+X_scaled <- scale(Datos_num)
+# Resumen estadístico de las variables ya escaladas
+summary(as.data.frame(X_scaled))
+library(factoextra)
+# Método del codo
+fviz_nbclust(X_scaled, kmeans, method = "wss") +
+labs(title = "Método del codo (Elbow method)",
+x = "Número de clusters (k)",
+y = "WSS - Within-cluster sum of squares")
+fviz_nbclust(X_scaled, kmeans, method = "wss") +
+labs(title = "Método del codo (Elbow method)",
+x = "Número de clusters (k)")
+# Gráfico automático del promedio de Silhouette por k
+fviz_nbclust(X_scaled, kmeans, method = "silhouette") +
+labs(title = "Selección de k mediante índice de Silhouette",
+x = "Número de clusters (k)",
+y = "Silhouette promedio")
+# Entrenamiento de K-means con k = 2
+set.seed(123)
+km2 <- kmeans(X_scaled, centers = 2, nstart = 50, iter.max = 100)
+# Agregar la asignación de clusters al data frame original
+Datos_clustered <- Datos %>%
+mutate(cluster = factor(km2$cluster))
+# Visualización en PCA 2D
+fviz_cluster(km2, data = X_scaled,
+geom = "point", ellipse.type = "norm",
+main = "Visualización de clusters (k = 2)")
+# PCA a 3 componentes sobre los datos escalados
+pca3 <- prcomp(X_scaled, center = FALSE, scale. = FALSE)
+pc_df <- as.data.frame(pca3$x[, 1:3])
+names(pc_df) <- c("PC1", "PC2", "PC3")
+pc_df$cluster <- factor(km2$cluster)
+# Etiquetas con varianza explicada para los ejes
+var_exp <- (pca3$sdev^2) / sum(pca3$sdev^2)
+xl <- paste0("PC1 (", round(100 * var_exp[1], 1), "%)")
+yl <- paste0("PC2 (", round(100 * var_exp[2], 1), "%)")
+zl <- paste0("PC3 (", round(100 * var_exp[3], 1), "%)")
+if (knitr::is_html_output()) {
+# --- Interactivo (HTML) ---
+# install.packages("plotly") si hace falta
+library(plotly)
+plot_ly(
+pc_df,
+x = ~PC1, y = ~PC2, z = ~PC3,
+color = ~cluster, symbol = ~cluster,
+symbols = c("circle", "triangle-up"),
+type = "scatter3d", mode = "markers",
+marker = list(size = 3)
+) %>%
+layout(
+title = "Clusters en 3D (PCA)",
+scene = list(
+xaxis = list(title = xl),
+yaxis = list(title = yl),
+zaxis = list(title = zl)
+),
+legend = list(title = list(text = "Cluster"))
+)
+} else {
+# --- Estático (PDF) ---
+# install.packages("scatterplot3d") si hace falta
+library(scatterplot3d)
+cols <- c("#E64B35", "#00A087")  # colores distintos por cluster
+pchs <- c(16, 17)
+col_vec <- cols[as.integer(pc_df$cluster)]
+pch_vec <- pchs[as.integer(pc_df$cluster)]
+scatterplot3d(pc_df$PC1, pc_df$PC2, pc_df$PC3,
+color = col_vec, pch = pch_vec,
+main = "Clusters en 3D (PCA)",
+xlab = xl, ylab = yl, zlab = zl,
+grid = TRUE, box = FALSE)
+legend("topright", legend = levels(pc_df$cluster),
+col = cols, pch = pchs, bty = "n", cex = 0.9, title = "Cluster")
+}
+library(dplyr)
+# Promedios por cluster
+numeric_means <- Datos_clustered %>%
+group_by(cluster) %>%
+summarise(across(c(age, study_hours_per_day, social_media_hours, netflix_hours,
+attendance_percentage, sleep_hours, exercise_frequency,
+mental_health_rating, exam_score),
+mean, na.rm = TRUE)) %>%
+ungroup()
+numeric_means
+library(dplyr)
+categorical_summary <- Datos_clustered %>%
+group_by(cluster) %>%
+summarise(
+gender_male_pct = mean(gender == "Male") * 100,
+part_time_job_yes_pct = mean(part_time_job == "Yes") * 100,
+diet_good_pct = mean(diet_quality == "Good") * 100,
+extracurricular_yes_pct = mean(extracurricular_participation == "Yes") * 100,
+internet_good_pct = mean(internet_quality == "Good") * 100,
+.groups = "drop"
+)
+categorical_summary
+tinytex::install_tinytex()
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(glue)
+library(readr)
+library(recipes)
+library(cluster)
+library(factoextra)
+library(scatterplot3d)
+library(plotly)
+# Conteo de NA por columna
+na_profile <- Datos %>%
+summarise(across(everything(), ~sum(is.na(.)))) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "na_count") %>%
+arrange(desc(na_count))
+na_profile %>% filter(na_count > 0)
+install.packages("plotly")
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(glue)
+library(readr)
+library(recipes)
+library(cluster)
+library(factoextra)
+library(scatterplot3d)
+library(plotly)
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(glue)
+library(readr)
+library(recipes)
+library(cluster)
+library(factoextra)
+library(scatterplot3d)
+library(plotly)
+knitr::opts_chunk$set(
+echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center"
+)
+set.seed(123)
+ruta_base<-"habits.csv"
+Datos<-read.csv(ruta_base)
+# Conteo de NA por columna
+na_profile <- Datos %>%
+summarise(across(everything(), ~sum(is.na(.)))) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "na_count") %>%
+arrange(desc(na_count))
+na_profile %>% filter(na_count > 0)
+type_profile <- Datos %>%
+summarise(across(everything(), ~class(.x)[1])) %>%
+pivot_longer(everything(), names_to = "variable", values_to = "class")
+type_profile
+# Selección de variables numéricas para clustering
+Datos_num <- Datos %>%
+select(age, study_hours_per_day, social_media_hours, netflix_hours,
+attendance_percentage, sleep_hours, exercise_frequency,
+mental_health_rating, exam_score)
+# Normalización (media = 0, desviación estándar = 1)
+X_scaled <- scale(Datos_num)
+# Resumen estadístico de las variables ya escaladas
+summary(as.data.frame(X_scaled))
+fviz_nbclust(X_scaled, kmeans, method = "wss") +
+labs(title = "Método del codo (Elbow method)",
+x = "Número de clusters (k)")
+# Gráfico automático del promedio de Silhouette por k
+fviz_nbclust(X_scaled, kmeans, method = "silhouette") +
+labs(title = "Selección de k mediante índice de Silhouette",
+x = "Número de clusters (k)",
+y = "Silhouette promedio")
+# Entrenamiento de K-means con k = 2
+set.seed(123)
+km2 <- kmeans(X_scaled, centers = 2, nstart = 50, iter.max = 100)
+# Agregar la asignación de clusters al data frame original
+Datos_clustered <- Datos %>%
+mutate(cluster = factor(km2$cluster))
+# Visualización en PCA 2D
+fviz_cluster(km2, data = X_scaled,
+geom = "point", ellipse.type = "norm",
+main = "Visualización de clusters (k = 2)")
+# PCA a 3 componentes sobre los datos escalados
+pca3 <- prcomp(X_scaled, center = FALSE, scale. = FALSE)
+pc_df <- as.data.frame(pca3$x[, 1:3])
+names(pc_df) <- c("PC1", "PC2", "PC3")
+pc_df$cluster <- factor(km2$cluster)
+# Etiquetas con varianza explicada para los ejes
+var_exp <- (pca3$sdev^2) / sum(pca3$sdev^2)
+xl <- paste0("PC1 (", round(100 * var_exp[1], 1), "%)")
+yl <- paste0("PC2 (", round(100 * var_exp[2], 1), "%)")
+zl <- paste0("PC3 (", round(100 * var_exp[3], 1), "%)")
+if (knitr::is_html_output()) {
+# --- Interactivo (HTML) ---
+# install.packages("plotly") si hace falta
+plot_ly(
+pc_df,
+x = ~PC1, y = ~PC2, z = ~PC3,
+color = ~cluster, symbol = ~cluster,
+symbols = c("circle", "triangle-up"),
+type = "scatter3d", mode = "markers",
+marker = list(size = 3)
+) %>%
+layout(
+title = "Clusters en 3D (PCA)",
+scene = list(
+xaxis = list(title = xl),
+yaxis = list(title = yl),
+zaxis = list(title = zl)
+),
+legend = list(title = list(text = "Cluster"))
+)
+} else {
+# --- Estático (PDF) ---
+# install.packages("scatterplot3d") si hace falta
+library(scatterplot3d)
+cols <- c("#E64B35", "#00A087")  # colores distintos por cluster
+pchs <- c(16, 17)
+col_vec <- cols[as.integer(pc_df$cluster)]
+pch_vec <- pchs[as.integer(pc_df$cluster)]
+scatterplot3d(pc_df$PC1, pc_df$PC2, pc_df$PC3,
+color = col_vec, pch = pch_vec,
+main = "Clusters en 3D (PCA)",
+xlab = xl, ylab = yl, zlab = zl,
+grid = TRUE, box = FALSE)
+legend("topright", legend = levels(pc_df$cluster),
+col = cols, pch = pchs, bty = "n", cex = 0.9, title = "Cluster")
+}
+# Promedios por cluster
+numeric_means <- Datos_clustered %>%
+group_by(cluster) %>%
+summarise(across(c(age, study_hours_per_day, social_media_hours, netflix_hours,
+attendance_percentage, sleep_hours, exercise_frequency,
+mental_health_rating, exam_score),
+mean, na.rm = TRUE)) %>%
+ungroup()
+numeric_means
+categorical_summary <- Datos_clustered %>%
+group_by(cluster) %>%
+summarise(
+gender_male_pct = mean(gender == "Male") * 100,
+part_time_job_yes_pct = mean(part_time_job == "Yes") * 100,
+diet_good_pct = mean(diet_quality == "Good") * 100,
+extracurricular_yes_pct = mean(extracurricular_participation == "Yes") * 100,
+internet_good_pct = mean(internet_quality == "Good") * 100,
+.groups = "drop"
+)
+categorical_summary

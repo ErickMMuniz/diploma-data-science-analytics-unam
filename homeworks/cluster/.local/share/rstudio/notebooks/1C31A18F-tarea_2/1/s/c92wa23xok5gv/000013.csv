@@ -1,0 +1,3 @@
+"0","fviz_nbclust(X_scaled, kmeans, method = ""wss"") +"
+"0","  labs(title = ""Método del codo (Elbow method)"","
+"0","       x = ""Número de clusters (k)"")"

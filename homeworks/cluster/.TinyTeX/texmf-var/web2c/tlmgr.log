@@ -1,0 +1,3 @@
+[Sun Sep  7 21:43:06 2025] update: texlive-scripts (76239 -> 76247)
+[Sun Sep  7 21:43:06 2025] command: mktexlsr
+[Sun Sep  7 21:43:06 2025] command: updmap-sys

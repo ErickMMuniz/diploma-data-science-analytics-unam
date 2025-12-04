@@ -1,0 +1,49 @@
+name l3kernel
+category Package
+revision 76213
+shortdesc LaTeX3 programming conventions
+longdesc The l3kernel bundle provides an implementation of the LaTeX3
+longdesc programmers' interface, as a set of packages that run under
+longdesc LaTeX2e. The interface provides the foundation on which the
+longdesc LaTeX3 kernel and other future code are built: it is an API for
+longdesc TeX programmers. The packages are set up so that the LaTeX3
+longdesc conventions can be used with regular LaTeX2e packages.
+depend l3backend
+depend lua-uni-algos
+containersize 188196
+containerchecksum d1ec8e7d5af6e3d4fd4e7cd8c4d5e27585ffe691681acdd158c1aeb9fef3f057e5677bb599f005f9eb84434052df0b9ae18dd4e83f43c31212a6e8916bfd6e65
+doccontainersize 12070384
+doccontainerchecksum 7f1432a8771ffb8d2324a0218402369301f21a88e2d37c9cbc287d5373db6131017f9c1986b55d9579464c418b8033a5edaffa42aa8b551c5bf1b514f60e6cf0
+srccontainersize 646612
+srccontainerchecksum 206907e20b72d346d7542907cd995da4dfea422379dc0d3e90cbcb8c1fe98f5f7a0428e9babe3b0633aee2ca6e0ae8614867b07b84bfa69c1b2ce0674aaac522
+runfiles size=386
+ texmf-dist/tex/latex/l3kernel/expl3-code.tex
+ texmf-dist/tex/latex/l3kernel/expl3-generic.tex
+ texmf-dist/tex/latex/l3kernel/expl3.ltx
+ texmf-dist/tex/latex/l3kernel/expl3.lua
+ texmf-dist/tex/latex/l3kernel/expl3.sty
+ texmf-dist/tex/latex/l3kernel/l3debug.def
+ texmf-dist/tex/latex/l3kernel/l3doc.cls
+ texmf-dist/tex/latex/l3kernel/l3docstrip.tex
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88591.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885910.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885911.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885913.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885914.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885915.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso885916.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88592.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88593.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88594.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88595.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88596.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88597.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88598.def
+ texmf-dist/tex/latex/l3kernel/l3str-enc-iso88599.def
+catalogue-also l3backend l3packages l3experimental
+catalogue-contact-bugs https://github.com/latex3/latex3/issues
+catalogue-contact-home https://www.latex-project.org
+catalogue-contact-repository https://github.com/latex3/latex3
+catalogue-ctan /macros/latex/required/l3kernel
+catalogue-license lppl1.3c
+catalogue-topics format latex3

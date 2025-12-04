@@ -1,0 +1,6 @@
+"0",""
+"0","# Gráfico automático del promedio de Silhouette por k"
+"0","fviz_nbclust(X_scaled, kmeans, method = ""silhouette"") +"
+"0","  labs(title = ""Selección de k mediante índice de Silhouette"","
+"0","       x = ""Número de clusters (k)"","
+"0","       y = ""Silhouette promedio"")"

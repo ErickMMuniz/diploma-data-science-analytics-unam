@@ -1,0 +1,653 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={K means},
+  pdfauthor={Luis Daniel López Muñoz},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{K means}
+\author{Luis Daniel López Muñoz}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.5.2     v tibble    3.3.0
+## v lubridate 1.9.4     v tidyr     1.3.1
+## v purrr     1.1.0     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(janitor)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'janitor'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(skimr)}
+\FunctionTok{library}\NormalTok{(glue)}
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(recipes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'recipes'
+## 
+## The following object is masked from 'package:stringr':
+## 
+##     fixed
+## 
+## The following object is masked from 'package:stats':
+## 
+##     step
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(cluster)}
+\FunctionTok{library}\NormalTok{(factoextra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+\end{verbatim}
+
+Este documento realiza \textbf{aprendizaje no supervisado (K-means)}
+sobre el conjunto \texttt{habits.csv} (1,000 estudiantes) para
+identificar \textbf{perfiles de hábitos} y relacionarlos con el
+\textbf{exam score}. El flujo será: \emph{exploración → preprocesamiento
+→ selección de k → K-means → interpretación}.
+
+Leemos los datos
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Datos}\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(ruta\_base)}
+\end{Highlighting}
+\end{Shaded}
+
+Comenzaremos por ver si nuestros datos contienen variables con valor
+``NA''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Conteo de NA por columna}
+\NormalTok{na\_profile }\OtherTok{\textless{}{-}}\NormalTok{ Datos }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(.)))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"variable"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"na\_count"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(na\_count))}
+
+\NormalTok{na\_profile }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(na\_count }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 0 x 2
+## # i 2 variables: variable <chr>, na_count <int>
+\end{verbatim}
+
+De lo cual, obtenemos que no tenemos datos faltantes.
+
+Ahora veremos que tipo de datos constituyen cada columna:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{type\_profile }\OtherTok{\textless{}{-}}\NormalTok{ Datos }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{class}\NormalTok{(.x)[}\DecValTok{1}\NormalTok{])) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{names\_to =} \StringTok{"variable"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"class"}\NormalTok{)}
+
+\NormalTok{type\_profile}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 15 x 2
+##    variable                      class    
+##    <chr>                         <chr>    
+##  1 age                           integer  
+##  2 gender                        character
+##  3 study_hours_per_day           numeric  
+##  4 social_media_hours            numeric  
+##  5 netflix_hours                 numeric  
+##  6 part_time_job                 character
+##  7 attendance_percentage         numeric  
+##  8 sleep_hours                   numeric  
+##  9 diet_quality                  character
+## 10 exercise_frequency            integer  
+## 11 parental_education_level      character
+## 12 internet_quality              character
+## 13 mental_health_rating          integer  
+## 14 extracurricular_participation character
+## 15 exam_score                    numeric
+\end{verbatim}
+
+\subsection{Procesamiento de Datos}\label{procesamiento-de-datos}
+
+Aunque el conjunto de datos incluye variables categóricas (por ejemplo,
+\emph{género}, \emph{tipo de empleo parcial}, \emph{calidad de dieta} o
+\emph{participación extracurricular}), estas no se incluyen en el
+proceso de entrenamiento del algoritmo \textbf{K-means}.
+
+El motivo es que \textbf{K-means se basa en distancias euclidianas}, las
+cuales requieren variables numéricas y continuas. Si las variables
+categóricas se transformaran en indicadores binarios (\emph{one-hot
+encoding}), podrían distorsionar los resultados, ya que la presencia o
+ausencia de una categoría tendría el mismo peso que cambios en variables
+numéricas como las horas de estudio o de sueño.
+
+En lugar de forzar su inclusión, se opta por un enfoque más sólido:\\
+- \textbf{Entrenar el modelo solo con variables numéricas}, que son más
+apropiadas para la métrica de distancia de K-means.\\
+- \textbf{Utilizar las variables categóricas posteriormente para
+interpretar los clusters}, analizando cómo se distribuyen estas
+características en cada grupo identificado.
+
+Este procedimiento permite generar clusters más robustos y, al mismo
+tiempo, enriquecer su interpretación con la información cualitativa del
+conjunto de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Selección de variables numéricas para clustering}
+\NormalTok{Datos\_num }\OtherTok{\textless{}{-}}\NormalTok{ Datos }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(age, study\_hours\_per\_day, social\_media\_hours, netflix\_hours,}
+\NormalTok{         attendance\_percentage, sleep\_hours, exercise\_frequency,}
+\NormalTok{         mental\_health\_rating, exam\_score)}
+
+\CommentTok{\# Normalización (media = 0, desviación estándar = 1)}
+\NormalTok{X\_scaled }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(Datos\_num)}
+
+\CommentTok{\# Resumen estadístico de las variables ya escaladas}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(X\_scaled))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       age          study_hours_per_day social_media_hours  netflix_hours     
+##  Min.   :-1.5155   Min.   :-2.41686    Min.   :-2.137028   Min.   :-1.69256  
+##  1st Qu.:-0.7573   1st Qu.:-0.64682    1st Qu.:-0.687039   1st Qu.:-0.76243  
+##  Median :-0.2158   Median :-0.03411    Median :-0.004691   Median :-0.01832  
+##  Mean   : 0.0000   Mean   : 0.00000    Mean   : 0.000000   Mean   : 0.00000  
+##  3rd Qu.: 1.0840   3rd Qu.: 0.64668    3rd Qu.: 0.677657   3rd Qu.: 0.65602  
+##  Max.   : 1.5173   Max.   : 3.23367    Max.   : 4.004103   Max.   : 3.33015  
+##  attendance_percentage  sleep_hours       exercise_frequency
+##  Min.   :-2.99297      Min.   :-2.66647   Min.   :-1.50191  
+##  1st Qu.:-0.65236      1st Qu.:-0.70949   1st Qu.:-1.00818  
+##  Median : 0.02854      Median : 0.02438   Median :-0.02074  
+##  Mean   : 0.00000      Mean   : 0.00000   Mean   : 0.00000  
+##  3rd Qu.: 0.73339      3rd Qu.: 0.67671   3rd Qu.: 0.96671  
+##  Max.   : 1.68825      Max.   : 2.87832   Max.   : 1.46044  
+##  mental_health_rating   exam_score     
+##  Min.   :-1.5586      Min.   :-3.0317  
+##  1st Qu.:-0.8562      1st Qu.:-0.6588  
+##  Median :-0.1538      Median : 0.0532  
+##  Mean   : 0.0000      Mean   : 0.0000  
+##  3rd Qu.: 0.8997      3rd Qu.: 0.6942  
+##  Max.   : 1.6021      Max.   : 1.7999
+\end{verbatim}
+
+\subsection{Selección del número de
+clusters}\label{selecciuxf3n-del-nuxfamero-de-clusters}
+
+La elección adecuada de \textbf{k}, es decir, el número de clusters, es
+un paso fundamental en el algoritmo \textbf{K-means}.\\
+Uno de los métodos más utilizados es el \textbf{método del codo
+(\emph{Elbow method})}, que evalúa cómo disminuye la \textbf{suma de
+distancias al cuadrado dentro de los clusters (WSS, \emph{Within-Cluster
+Sum of Squares})} a medida que aumenta el número de clusters.
+
+La lógica es la siguiente:
+
+\begin{itemize}
+\tightlist
+\item
+  A medida que incrementamos \textbf{k}, la WSS siempre disminuye porque
+  los clusters se vuelven más pequeños y homogéneos.\\
+\item
+  Sin embargo, llega un punto en el que la reducción adicional de WSS es
+  marginal.\\
+\item
+  Ese punto de inflexión se denomina \textbf{``codo''}, y es el valor
+  sugerido para \textbf{k}.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_nbclust}\NormalTok{(X\_scaled, kmeans, }\AttributeTok{method =} \StringTok{"wss"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Método del codo (Elbow method)"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Número de clusters (k)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{tarea_2_files/figure-latex/elbow-1} \end{center}
+
+En el gráfico del método del codo, la disminución de la \textbf{WSS} no
+presenta un punto de inflexión claro.\\
+La curva desciende de manera progresiva desde \(k = 1\) hasta
+\(k = 10\), sin un cambio de pendiente lo suficientemente marcado como
+para señalar un único valor de \(k\).
+
+Cuando el ``codo'' no es evidente, el criterio del método se vuelve
+ambiguo y es recomendable apoyarse en otros enfoques, como el
+\textbf{índice de Silhouette}, que permite evaluar directamente la
+calidad de la partición generada para cada número de clusters.
+
+\subsubsection{3.1 Índice de Silhouette}\label{uxedndice-de-silhouette}
+
+El \textbf{índice de Silhouette} evalúa simultáneamente la
+\textbf{compacidad interna} de los clusters y su \textbf{separación}
+respecto a los demás grupos.\\
+Para cada observación, compara la distancia media a los puntos de su
+propio cluster con la distancia media al cluster vecino más cercano.\\
+El valor promedio por partición toma valores en \([-1, 1]\):\\
+- cercano a \textbf{1} → clusters bien separados y compactos;\\
+- cerca de \textbf{0} → fronteras difusas entre clusters;\\
+- \textbf{negativo} → asignaciones potencialmente incorrectas.
+
+Seleccionaremos el \(k\) cuyo \textbf{promedio de Silhouette} sea
+\textbf{máximo}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Gráfico automático del promedio de Silhouette por k}
+\FunctionTok{fviz\_nbclust}\NormalTok{(X\_scaled, kmeans, }\AttributeTok{method =} \StringTok{"silhouette"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Selección de k mediante índice de Silhouette"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Número de clusters (k)"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Silhouette promedio"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{tarea_2_files/figure-latex/silhouette-1} \end{center}
+
+El gráfico del índice de Silhouette muestra que el valor máximo se
+alcanza en \textbf{k = 2}, con un promedio cercano a 0.125.\\
+A partir de \textbf{k = 3}, los valores disminuyen y se estabilizan en
+torno a 0.09--0.10, lo cual indica que dividir en más grupos no mejora
+de manera significativa la separación ni la compacidad de los clusters.
+
+Si bien los valores absolutos del índice no son elevados (lo cual
+refleja que los clusters no están fuertemente diferenciados), el
+criterio de Silhouette sugiere que la mejor partición de los datos se
+obtiene con \textbf{dos clusters}.
+
+\subsection{Ejecución del algoritmo
+K-means}\label{ejecuciuxf3n-del-algoritmo-k-means}
+
+Con base en el análisis previo, el número de clusters seleccionado es
+\textbf{k = 2}, ya que fue el valor óptimo de acuerdo con el índice de
+Silhouette.
+
+En esta sección se ejecuta el algoritmo \textbf{K-means} sobre la matriz
+de variables normalizadas y se generan las asignaciones de cluster para
+cada estudiante.\\
+Posteriormente, se presentan dos salidas clave: 1. La
+\textbf{visualización en dos dimensiones} utilizando Análisis de
+Componentes Principales (PCA).\\
+2. La \textbf{tabla de centroides} (valores medios de cada variable en
+cada cluster), reescalados a su escala original para facilitar la
+interpretación.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Entrenamiento de K{-}means con k = 2}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{km2 }\OtherTok{\textless{}{-}} \FunctionTok{kmeans}\NormalTok{(X\_scaled, }\AttributeTok{centers =} \DecValTok{2}\NormalTok{, }\AttributeTok{nstart =} \DecValTok{50}\NormalTok{, }\AttributeTok{iter.max =} \DecValTok{100}\NormalTok{)}
+
+\CommentTok{\# Agregar la asignación de clusters al data frame original}
+\NormalTok{Datos\_clustered }\OtherTok{\textless{}{-}}\NormalTok{ Datos }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cluster =} \FunctionTok{factor}\NormalTok{(km2}\SpecialCharTok{$}\NormalTok{cluster))}
+
+\CommentTok{\# Visualización en PCA 2D}
+\FunctionTok{fviz\_cluster}\NormalTok{(km2, }\AttributeTok{data =}\NormalTok{ X\_scaled,}
+             \AttributeTok{geom =} \StringTok{"point"}\NormalTok{, }\AttributeTok{ellipse.type =} \StringTok{"norm"}\NormalTok{,}
+             \AttributeTok{main =} \StringTok{"Visualización de clusters (k = 2)"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{tarea_2_files/figure-latex/kmeans-exec-1} \end{center}
+
+La gráfica de dispersión obtenida mediante \textbf{PCA en dos
+dimensiones} muestra la distribución de los estudiantes en los dos
+clusters formados por K-means.
+
+Cada punto representa a un estudiante, y los colores distinguen los
+clusters. Las elipses alrededor de cada grupo ilustran la dispersión y
+solapamiento de las observaciones.
+
+Se observa que: - Los dos clusters presentan cierta separación,
+especialmente a lo largo de la primera componente principal (Dim1).\\
+- Existe una zona de \textbf{superposición en el centro}, lo cual indica
+que algunos estudiantes tienen características intermedias que no
+permiten una diferenciación tajante.\\
+- A pesar de ello, el modelo identifica \textbf{dos perfiles
+predominantes}, que se analizarán en mayor detalle a través de los
+centroides y la comparación de las variables numéricas y categóricas.
+
+Para explorar mejor la separación entre grupos, se realiza una
+\textbf{reducción de dimensionalidad mediante PCA a tres componentes} y
+se grafica en 3D.\\
+- Si el documento se renderiza a \textbf{HTML}, se muestra una
+visualización \textbf{interactiva} con \texttt{plotly}.\\
+- Si se renderiza a \textbf{PDF}, se muestra una \textbf{versión
+estática} con \texttt{scatterplot3d}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# PCA a 3 componentes sobre los datos escalados}
+\NormalTok{pca3 }\OtherTok{\textless{}{-}} \FunctionTok{prcomp}\NormalTok{(X\_scaled, }\AttributeTok{center =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{scale. =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{pc\_df }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(pca3}\SpecialCharTok{$}\NormalTok{x[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{])}
+\FunctionTok{names}\NormalTok{(pc\_df) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"PC1"}\NormalTok{, }\StringTok{"PC2"}\NormalTok{, }\StringTok{"PC3"}\NormalTok{)}
+\NormalTok{pc\_df}\SpecialCharTok{$}\NormalTok{cluster }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(km2}\SpecialCharTok{$}\NormalTok{cluster)}
+
+\CommentTok{\# Etiquetas con varianza explicada para los ejes}
+\NormalTok{var\_exp }\OtherTok{\textless{}{-}}\NormalTok{ (pca3}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(pca3}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{xl }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"PC1 ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ var\_exp[}\DecValTok{1}\NormalTok{], }\DecValTok{1}\NormalTok{), }\StringTok{"\%)"}\NormalTok{)}
+\NormalTok{yl }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"PC2 ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ var\_exp[}\DecValTok{2}\NormalTok{], }\DecValTok{1}\NormalTok{), }\StringTok{"\%)"}\NormalTok{)}
+\NormalTok{zl }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"PC3 ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ var\_exp[}\DecValTok{3}\NormalTok{], }\DecValTok{1}\NormalTok{), }\StringTok{"\%)"}\NormalTok{)}
+
+\ControlFlowTok{if}\NormalTok{ (knitr}\SpecialCharTok{::}\FunctionTok{is\_html\_output}\NormalTok{()) \{}
+  \CommentTok{\# {-}{-}{-} Interactivo (HTML) {-}{-}{-}}
+  \CommentTok{\# install.packages("plotly") si hace falta}
+  \FunctionTok{library}\NormalTok{(plotly)}
+  \FunctionTok{plot\_ly}\NormalTok{(}
+\NormalTok{    pc\_df,}
+    \AttributeTok{x =} \SpecialCharTok{\textasciitilde{}}\NormalTok{PC1, }\AttributeTok{y =} \SpecialCharTok{\textasciitilde{}}\NormalTok{PC2, }\AttributeTok{z =} \SpecialCharTok{\textasciitilde{}}\NormalTok{PC3,}
+    \AttributeTok{color =} \SpecialCharTok{\textasciitilde{}}\NormalTok{cluster, }\AttributeTok{symbol =} \SpecialCharTok{\textasciitilde{}}\NormalTok{cluster,}
+    \AttributeTok{symbols =} \FunctionTok{c}\NormalTok{(}\StringTok{"circle"}\NormalTok{, }\StringTok{"triangle{-}up"}\NormalTok{),}
+    \AttributeTok{type =} \StringTok{"scatter3d"}\NormalTok{, }\AttributeTok{mode =} \StringTok{"markers"}\NormalTok{,}
+    \AttributeTok{marker =} \FunctionTok{list}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{layout}\NormalTok{(}
+      \AttributeTok{title =} \StringTok{"Clusters en 3D (PCA)"}\NormalTok{,}
+      \AttributeTok{scene =} \FunctionTok{list}\NormalTok{(}
+        \AttributeTok{xaxis =} \FunctionTok{list}\NormalTok{(}\AttributeTok{title =}\NormalTok{ xl),}
+        \AttributeTok{yaxis =} \FunctionTok{list}\NormalTok{(}\AttributeTok{title =}\NormalTok{ yl),}
+        \AttributeTok{zaxis =} \FunctionTok{list}\NormalTok{(}\AttributeTok{title =}\NormalTok{ zl)}
+\NormalTok{      ),}
+      \AttributeTok{legend =} \FunctionTok{list}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"Cluster"}\NormalTok{))}
+\NormalTok{    )}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \CommentTok{\# {-}{-}{-} Estático (PDF) {-}{-}{-}}
+  \CommentTok{\# install.packages("scatterplot3d") si hace falta}
+  \FunctionTok{library}\NormalTok{(scatterplot3d)}
+\NormalTok{  cols }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"\#E64B35"}\NormalTok{, }\StringTok{"\#00A087"}\NormalTok{)  }\CommentTok{\# colores distintos por cluster}
+\NormalTok{  pchs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DecValTok{17}\NormalTok{)}
+\NormalTok{  col\_vec }\OtherTok{\textless{}{-}}\NormalTok{ cols[}\FunctionTok{as.integer}\NormalTok{(pc\_df}\SpecialCharTok{$}\NormalTok{cluster)]}
+\NormalTok{  pch\_vec }\OtherTok{\textless{}{-}}\NormalTok{ pchs[}\FunctionTok{as.integer}\NormalTok{(pc\_df}\SpecialCharTok{$}\NormalTok{cluster)]}
+
+  \FunctionTok{scatterplot3d}\NormalTok{(pc\_df}\SpecialCharTok{$}\NormalTok{PC1, pc\_df}\SpecialCharTok{$}\NormalTok{PC2, pc\_df}\SpecialCharTok{$}\NormalTok{PC3,}
+                \AttributeTok{color =}\NormalTok{ col\_vec, }\AttributeTok{pch =}\NormalTok{ pch\_vec,}
+                \AttributeTok{main =} \StringTok{"Clusters en 3D (PCA)"}\NormalTok{,}
+                \AttributeTok{xlab =}\NormalTok{ xl, }\AttributeTok{ylab =}\NormalTok{ yl, }\AttributeTok{zlab =}\NormalTok{ zl,}
+                \AttributeTok{grid =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{box =} \ConstantTok{FALSE}\NormalTok{)}
+  \FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{levels}\NormalTok{(pc\_df}\SpecialCharTok{$}\NormalTok{cluster),}
+         \AttributeTok{col =}\NormalTok{ cols, }\AttributeTok{pch =}\NormalTok{ pchs, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{title =} \StringTok{"Cluster"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{tarea_2_files/figure-latex/pca-3d-1} \end{center}
+
+En la gráfica se observa lo siguiente: - Los dos clusters se distinguen
+principalmente a lo largo de la \textbf{primera componente (PC1)}.\\
+- Existe un grado de \textbf{solapamiento} entre los grupos, consistente
+con el valor moderado del índice de Silhouette.\\
+- Aun con esta superposición, se aprecian \textbf{zonas de concentración
+diferenciadas} que reflejan dos perfiles predominantes de estudiantes.
+
+\subsection{Interpretación de los
+clusters}\label{interpretaciuxf3n-de-los-clusters}
+
+El objetivo de esta sección es \textbf{caracterizar los clusters}
+formados por \textbf{K-means}. Para ello:
+
+\begin{itemize}
+\tightlist
+\item
+  Se comparan los \textbf{valores medios} de las \textbf{variables
+  numéricas} en cada cluster.
+\item
+  Se analizan las \textbf{distribuciones de las variables categóricas}
+  por cluster, con el fin de \textbf{enriquecer la interpretación} de
+  los perfiles.
+\end{itemize}
+
+\subsubsection{Comparación de variables
+numéricas.}\label{comparaciuxf3n-de-variables-numuxe9ricas.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# Promedios por cluster}
+\NormalTok{numeric\_means }\OtherTok{\textless{}{-}}\NormalTok{ Datos\_clustered }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(cluster) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(age, study\_hours\_per\_day, social\_media\_hours, netflix\_hours,}
+\NormalTok{                     attendance\_percentage, sleep\_hours, exercise\_frequency,}
+\NormalTok{                     mental\_health\_rating, exam\_score),}
+\NormalTok{                   mean, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ungroup}\NormalTok{()}
+
+\NormalTok{numeric\_means}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 10
+##   cluster   age study_hours_per_day social_media_hours netflix_hours
+##   <fct>   <dbl>               <dbl>              <dbl>         <dbl>
+## 1 1        20.5                2.55               2.67          1.99
+## 2 2        20.5                4.47               2.36          1.66
+## # i 5 more variables: attendance_percentage <dbl>, sleep_hours <dbl>,
+## #   exercise_frequency <dbl>, mental_health_rating <dbl>, exam_score <dbl>
+\end{verbatim}
+
+\begin{itemize}
+\item
+  \textbf{Cluster 1}:\\
+  Se caracteriza por \textbf{menor dedicación académica} (≈ 2.6 horas de
+  estudio al día), acompañado de \textbf{mayor tiempo en redes sociales
+  y Netflix}.\\
+  Presenta una \textbf{menor asistencia a clases (83\%)}, menos
+  ejercicio físico y \textbf{calificaciones más bajas en el examen final
+  (≈ 55.6 puntos)}.\\
+  Además, sus estudiantes reportan un \textbf{estado de salud mental más
+  bajo}.
+\item
+  \textbf{Cluster 2}:\\
+  Agrupa a los estudiantes con \textbf{hábitos más disciplinados}: en
+  promedio estudian más de 4 horas al día, duermen y hacen ejercicio con
+  mayor regularidad, y dedican menos tiempo a redes sociales y
+  Netflix.\\
+  También presentan \textbf{mayor asistencia (85\%)} y mejores
+  indicadores de \textbf{salud mental}, lo que se refleja en un
+  \textbf{mejor rendimiento académico (≈ 82.5 puntos)}.
+\end{itemize}
+
+Posteriormente, vemos la distribución de las variables categóricas que
+conforman nuestros datos
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\NormalTok{categorical\_summary }\OtherTok{\textless{}{-}}\NormalTok{ Datos\_clustered }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(cluster) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{gender\_male\_pct =} \FunctionTok{mean}\NormalTok{(gender }\SpecialCharTok{==} \StringTok{"Male"}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{part\_time\_job\_yes\_pct =} \FunctionTok{mean}\NormalTok{(part\_time\_job }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{diet\_good\_pct =} \FunctionTok{mean}\NormalTok{(diet\_quality }\SpecialCharTok{==} \StringTok{"Good"}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{extracurricular\_yes\_pct =} \FunctionTok{mean}\NormalTok{(extracurricular\_participation }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{internet\_good\_pct =} \FunctionTok{mean}\NormalTok{(internet\_quality }\SpecialCharTok{==} \StringTok{"Good"}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+
+\NormalTok{categorical\_summary}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 6
+##   cluster gender_male_pct part_time_job_yes_pct diet_good_pct
+##   <fct>             <dbl>                 <dbl>         <dbl>
+## 1 1                  48.2                  23.0          37.0
+## 2 2                  47.2                  20.2          38.6
+## # i 2 more variables: extracurricular_yes_pct <dbl>, internet_good_pct <dbl>
+\end{verbatim}
+
+Las diferencias entre clusters en las variables categóricas resultan
+menos marcadas que en las variables numéricas, aunque permiten observar
+algunos matices:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Género:} la proporción de hombres es muy similar en ambos
+  grupos (≈48\% en Cluster 1 vs 47\% en Cluster 2).\\
+\item
+  \textbf{Trabajo a tiempo parcial:} ligeramente más frecuente en el
+  Cluster 1 (23\%) que en el Cluster 2 (20\%).\\
+\item
+  \textbf{Calidad de dieta:} algo mejor en el Cluster 2 (39\%) respecto
+  al Cluster 1 (37\%).\\
+\item
+  \textbf{Participación extracurricular:} prácticamente idéntica en
+  ambos grupos (≈32\%).\\
+\item
+  \textbf{Acceso a internet:} mayor en el Cluster 1 (47\%) en
+  comparación con el Cluster 2 (42\%).
+\end{itemize}
+
+En conjunto, se confirma que las \textbf{principales diferencias entre
+clusters están en los hábitos numéricos} (estudio, sueño, ocio,
+ejercicio y rendimiento académico), mientras que las variables
+categóricas aportan información complementaria pero con variaciones más
+leves.
+
+\end{document}
